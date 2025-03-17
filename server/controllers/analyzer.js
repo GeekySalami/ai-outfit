@@ -47,7 +47,7 @@ For each outfit, provide a list that includes:
 - A score from 0 to 10, reflecting how well the outfit matches the ${selectedstyle} style.
 - A short description explaining your rationale for this outfit.
 
-Your output should be in JSON format, as follows:
+Only return JSON output in the following format:, as follows:
 ${formatExample}.`,
     };
 
@@ -64,6 +64,11 @@ ${formatExample}.`,
     // Await the text response properly
     const responseText = await generatedContent.response.text();
     console.log("Response text:", responseText);
+    const match = responseText.match(/```([\s\S]+?)```/);
+    let extractedText = match ? match[1].trim() : responseText;
+    extractedText = `\`\`\`${extractedText}\`\`\``
+    console.log("Extracted text:", extractedText);
+
     const cleanedText = responseText.replace(/^```json|```$/g, "").trim();
     console.log("Cleaned response text:", cleanedText);
 
